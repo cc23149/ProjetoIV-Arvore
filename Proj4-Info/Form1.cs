@@ -1,4 +1,8 @@
-﻿using AgendaAlfabetica;
+﻿//Matheus Ferreira Fagundes - 23149
+//Yasmin Victoria Lopes da Silva - 23581
+
+
+using AgendaAlfabetica;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,20 +37,13 @@ namespace Proj4
             try
             {
                 // ====== Localização dos arquivos ======
-                // obtém o diretório onde o programa está sendo executado (bin\Debug)
-                var pastaBase = Application.StartupPath;
+                string pastaBase = Application.StartupPath;
+                DirectoryInfo dir = new DirectoryInfo(pastaBase);
+                string pastaProjeto = dir.Parent.Parent.FullName; // sobe duas pastas
+                string pastaDados = Path.Combine(pastaProjeto, "Dados");
 
-                // sobe duas pastas (Debug -> bin -> Proj4-Info)
-                var dir = new DirectoryInfo(pastaBase);
-                var pastaProjeto = dir.Parent.Parent.FullName;
-
-                // monta o caminho completo até a pasta "Dados"
-                var pastaDados = Path.Combine(pastaProjeto, "Dados");
-
-                // define os nomes dos arquivos dentro da pasta Dados
-                var arqCidades = Path.Combine(pastaDados, "cidades.dat");
-                var arqCaminhos = Path.Combine(pastaDados, "GrafoOnibusSaoPaulo.txt");
-
+                string arqCidades = Path.Combine(pastaDados, "cidades.dat");
+                string arqCaminhos = Path.Combine(pastaDados, "GrafoOnibusSaoPaulo.txt");
 
                 // ====== Leitura das cidades ======
                 if (File.Exists(arqCidades))
@@ -55,48 +52,56 @@ namespace Proj4
                     MessageBox.Show("Cidades carregadas com sucesso!", "Leitura de Arquivo");
                 }
                 else
+                {
                     MessageBox.Show("Arquivo de cidades não encontrado!", "Aviso");
+                }
 
-
-                // ====== Leitura dos caminhos ======
+                // ====== Leitura dos caminhos (somente entre cidades existentes) ======
                 if (File.Exists(arqCaminhos))
                 {
-                    using (var arqTxt = new FileStream(arqCaminhos, FileMode.Open))
-                    using (var leitor = new StreamReader(arqTxt))
+                    using (StreamReader leitor = new StreamReader(arqCaminhos))
                     {
                         string linha;
                         while ((linha = leitor.ReadLine()) != null)
                         {
-                            // Divide a linha nos três campos
-                            var partes = linha.Split(';');
-
-                            // ignora linhas vazias ou incompletas
+                            string[] partes = linha.Split(';');
                             if (partes.Length < 3)
                                 continue;
 
-                            var nomeOrigem = partes[0].Trim();
-                            var nomeDestino = partes[1].Trim();
-                            var distancia = int.Parse(partes[2].Trim());
+                            string nomeOrigem = partes[0].Trim();
+                            string nomeDestino = partes[1].Trim();
 
-                            // Cria a ligação
-                            var lig = new Ligacao(nomeOrigem, nomeDestino, distancia);
+                            // ignora auto-ligações
+                            if (string.Equals(nomeOrigem, nomeDestino, StringComparison.OrdinalIgnoreCase))
+                                continue;
 
-                            // Localiza as cidades na árvore
-                            var cidadeOrigem = new Cidade(nomeOrigem);
-                            var cidadeDestino = new Cidade(nomeDestino);
+                            if (!int.TryParse(partes[2].Trim(), out int distancia))
+                                continue;
 
-                            if (arvore.Existe(cidadeOrigem))
+                            // cria objetos temporários para busca
+                            Cidade procuraOrigem = new Cidade(nomeOrigem);
+                            Cidade procuraDestino = new Cidade(nomeDestino);
+
+                            // só adiciona se as duas cidades existirem na árvore
+                            if (arvore.Existe(procuraOrigem) && arvore.Existe(procuraDestino))
                             {
-                                cidadeOrigem = arvore.Atual.Info;
-                                cidadeOrigem.Ligacoes.InserirEmOrdem(lig);
-                            }
+                                // garante que Atual esteja posicionado na origem e destino
+                                arvore.Existe(procuraOrigem);
+                                Cidade cidadeOrigem = arvore.Atual.Info;
 
-                            // como é bidirecional, adiciona a volta também
-                            var volta = new Ligacao(nomeDestino, nomeOrigem, distancia);
-                            if (arvore.Existe(cidadeDestino))
-                            {
-                                cidadeDestino = arvore.Atual.Info;
-                                cidadeDestino.Ligacoes.InserirEmOrdem(volta);
+                                arvore.Existe(procuraDestino);
+                                Cidade cidadeDestino = arvore.Atual.Info;
+
+                                // cria ligações
+                                Ligacao ida = new Ligacao(nomeOrigem, nomeDestino, distancia);
+                                Ligacao volta = new Ligacao(nomeDestino, nomeOrigem, distancia);
+
+                                // evita duplicatas
+                                if (!cidadeOrigem.Ligacoes.ExisteDado(ida))
+                                    cidadeOrigem.Ligacoes.InserirEmOrdem(ida);
+
+                                if (!cidadeDestino.Ligacoes.ExisteDado(volta))
+                                    cidadeDestino.Ligacoes.InserirEmOrdem(volta);
                             }
                         }
                     }
@@ -104,12 +109,12 @@ namespace Proj4
                     MessageBox.Show("Caminhos carregados com sucesso!", "Leitura de Arquivo");
                 }
                 else
+                {
                     MessageBox.Show("Arquivo de caminhos não encontrado!", "Aviso");
+                }
 
-                // ====== Desenho inicial da árvore ======
+                // ====== Atualiza interface ======
                 pnlArvore.Refresh();
-
-                // ====== Preenche o ComboBox com as cidades ======
                 cbxCidadeDestino.Items.Clear();
                 PreencherComboCidades(arvore.Raiz);
             }
@@ -118,9 +123,10 @@ namespace Proj4
                 MessageBox.Show("Erro ao carregar os arquivos:\n" + erro.Message,
                                 "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
-
         }
+
+
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             string pastaBase = Application.StartupPath;
@@ -195,10 +201,17 @@ namespace Proj4
                     procurada = arvore.Atual.Info;
                     udX.Value = (decimal)procurada.X;
                     udY.Value = (decimal)procurada.Y;
+
+                    // Atualiza a grade de ligações visuais
+                    AtualizarGridLigacoes(procurada);
+
                     MessageBox.Show("Cidade encontrada!", "Busca");
                 }
                 else
+                {
                     MessageBox.Show("Cidade não encontrada!", "Aviso");
+                    dgvLigacoes.Rows.Clear(); // limpa a tabela caso não ache
+                }
             }
             catch (Exception erro)
             {
@@ -288,9 +301,12 @@ namespace Proj4
                     return;
                 }
 
+                arvore.Existe(origem);
                 origem = arvore.Atual.Info;
+                arvore.Existe(destino);
+                destino = arvore.Atual.Info;
 
-                // ===== Estruturas da busca =====
+                // ===== Estruturas =====
                 FilaLista<Cidade> fila = new FilaLista<Cidade>();
                 ListaSimples<Cidade> visitados = new ListaSimples<Cidade>();
                 ListaSimples<Ligacao> caminho = new ListaSimples<Ligacao>();
@@ -300,49 +316,59 @@ namespace Proj4
 
                 bool achou = false;
 
+                // ===== Busca em largura =====
                 while (!fila.EstaVazia && !achou)
                 {
                     Cidade atual = fila.Retirar();
 
-                    // percorre as ligações da cidade atual
-                    foreach (Ligacao lig in atual.Ligacoes.Listar())
+                    NoLista<Ligacao> lig = atual.Ligacoes.Primeiro;
+                    while (lig != null)
                     {
-                        Cidade proxima = new Cidade(lig.Destino);
+                        string nomeProx = lig.Info.Destino.Trim();
 
-                        // usa o método correto da ListaSimples: ExisteDado
+                        // ignora auto-ligações
+                        if (nomeProx.Equals(atual.Nome.Trim(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            lig = lig.Prox;
+                            continue;
+                        }
+
+                        Cidade proxima = new Cidade(nomeProx);
+
                         if (!visitados.ExisteDado(proxima))
                         {
-                            // localiza o objeto Cidade na árvore para obter as coordenadas e a lista de ligações
                             if (arvore.Existe(proxima))
                             {
                                 proxima = arvore.Atual.Info;
 
                                 fila.Enfileirar(proxima);
                                 visitados.InserirAposFim(proxima);
+                                caminho.InserirAposFim(new Ligacao(atual.Nome, proxima.Nome, lig.Info.Distancia));
 
-                                // guarda a aresta percorrida (origem atual -> proxima)
-                                caminho.InserirAposFim(new Ligacao(atual.Nome, proxima.Nome, lig.Distancia));
-
-                                if (proxima.Nome.Trim() == destino.Nome.Trim())
+                                if (proxima.Nome.Trim().Equals(destino.Nome.Trim(), StringComparison.OrdinalIgnoreCase))
                                 {
                                     achou = true;
                                     break;
                                 }
                             }
                         }
+
+                        lig = lig.Prox;
                     }
                 }
 
-                // ===== Resultado =====
+                // ===== Exibição do resultado =====
                 dgvRotas.Rows.Clear();
                 int total = 0;
 
                 if (achou)
                 {
-                    foreach (Ligacao lig in caminho.Listar())
+                    NoLista<Ligacao> lig = caminho.Primeiro;
+                    while (lig != null)
                     {
-                        dgvRotas.Rows.Add(lig.Destino.Trim(), lig.Distancia);
-                        total += lig.Distancia;
+                        dgvRotas.Rows.Add(lig.Info.Destino, lig.Info.Distancia);
+                        total += lig.Info.Distancia;
+                        lig = lig.Prox;
                     }
 
                     lbDistanciaTotal.Text = "Distância total: " + total + " km";
@@ -359,6 +385,10 @@ namespace Proj4
             }
         }
 
+
+
+
+
         private void btnIncluirCaminho_Click(object sender, EventArgs e)
         {
             try
@@ -373,43 +403,47 @@ namespace Proj4
                     return;
                 }
 
-                if (nomeOrigem == nomeDestino)
+                if (nomeOrigem.Equals(nomeDestino, StringComparison.OrdinalIgnoreCase))
                 {
                     MessageBox.Show("As cidades devem ser diferentes!");
                     return;
                 }
 
+                // ===== GARANTE QUE AS CIDADES EXISTAM NA ÁRVORE =====
                 Cidade origem = new Cidade(nomeOrigem);
+                if (!arvore.Existe(origem))
+                {
+                    arvore.IncluirNovoDado(origem);
+                    arvore.Existe(origem); // reposiciona ponteiro Atual
+                }
+                origem = arvore.Atual.Info;
+
                 Cidade destino = new Cidade(nomeDestino);
-
-                if (arvore.Existe(origem) && arvore.Existe(destino))
+                if (!arvore.Existe(destino))
                 {
-                    origem = arvore.Atual.Info;
-
+                    arvore.IncluirNovoDado(destino);
                     arvore.Existe(destino);
-                    destino = arvore.Atual.Info;
-
-                    Ligacao ida = new Ligacao(nomeOrigem, nomeDestino, distancia);
-                    Ligacao volta = new Ligacao(nomeDestino, nomeOrigem, distancia);
-
-                    origem.Ligacoes.InserirEmOrdem(ida);
-                    destino.Ligacoes.InserirEmOrdem(volta);
-
-                    MessageBox.Show("Caminho incluído com sucesso!", "Inclusão");
-
-                    // Atualiza a grade de ligações visuais
-                    AtualizarGridLigacoes(origem);
                 }
-                else
-                {
-                    MessageBox.Show("Uma das cidades não foi encontrada!", "Aviso");
-                }
+                destino = arvore.Atual.Info;
+
+                // ===== CRIA LIGAÇÕES BIDIRECIONAIS =====
+                Ligacao ida = new Ligacao(nomeOrigem, nomeDestino, distancia);
+                Ligacao volta = new Ligacao(nomeDestino, nomeOrigem, distancia);
+
+                origem.Ligacoes.InserirEmOrdem(ida);
+                destino.Ligacoes.InserirEmOrdem(volta);
+
+                MessageBox.Show("Caminho incluído com sucesso!", "Inclusão");
+
+                // Atualiza visualmente as ligações da cidade de origem
+                AtualizarGridLigacoes(origem);
             }
             catch (Exception erro)
             {
                 MessageBox.Show("Erro ao incluir caminho:\n" + erro.Message, "Erro");
             }
         }
+
 
         private void btnExcluirCaminho_Click(object sender, EventArgs e)
         {
@@ -424,25 +458,44 @@ namespace Proj4
                     return;
                 }
 
-                Cidade origem = new Cidade(nomeOrigem);
-                Cidade destino = new Cidade(nomeDestino);
-
-                if (arvore.Existe(origem) && arvore.Existe(destino))
+                if (nomeOrigem.Equals(nomeDestino, StringComparison.OrdinalIgnoreCase))
                 {
-                    origem = arvore.Atual.Info;
-                    origem.Ligacoes.RemoverDado(new Ligacao(nomeOrigem, nomeDestino, 0));
+                    MessageBox.Show("As cidades devem ser diferentes!");
+                    return;
+                }
 
-                    arvore.Existe(destino);
-                    destino = arvore.Atual.Info;
-                    destino.Ligacoes.RemoverDado(new Ligacao(nomeDestino, nomeOrigem, 0));
+                // ===== GARANTE QUE AS CIDADES EXISTAM =====
+                Cidade origem = new Cidade(nomeOrigem);
+                if (!arvore.Existe(origem))
+                {
+                    MessageBox.Show("Cidade de origem não encontrada!", "Aviso");
+                    return;
+                }
+                origem = arvore.Atual.Info;
 
+                Cidade destino = new Cidade(nomeDestino);
+                if (!arvore.Existe(destino))
+                {
+                    MessageBox.Show("Cidade de destino não encontrada!", "Aviso");
+                    return;
+                }
+                destino = arvore.Atual.Info;
+
+                // ===== VERIFICA SE EXISTE A LIGAÇÃO =====
+                Ligacao ligacaoIda = new Ligacao(nomeOrigem, nomeDestino, 0);
+                Ligacao ligacaoVolta = new Ligacao(nomeDestino, nomeOrigem, 0);
+
+                bool removidaOrigem = origem.Ligacoes.RemoverDado(ligacaoIda);
+                bool removidaDestino = destino.Ligacoes.RemoverDado(ligacaoVolta);
+
+                if (removidaOrigem || removidaDestino)
+                {
                     MessageBox.Show("Caminho excluído com sucesso!", "Exclusão");
-
                     AtualizarGridLigacoes(origem);
                 }
                 else
                 {
-                    MessageBox.Show("Uma das cidades não foi encontrada!", "Aviso");
+                    MessageBox.Show("Não existe caminho entre essas cidades!", "Aviso");
                 }
             }
             catch (Exception erro)
@@ -450,6 +503,7 @@ namespace Proj4
                 MessageBox.Show("Erro ao excluir caminho:\n" + erro.Message, "Erro");
             }
         }
+
 
 
 
@@ -477,7 +531,6 @@ namespace Proj4
 
 
 
-
         private void PreencherComboCidades(NoArvore<Cidade> no)
         {
             if (no == null)
@@ -491,10 +544,6 @@ namespace Proj4
 
             PreencherComboCidades(no.Dir);
         }
-
-
-
-
 
 
         private void AtualizarGridLigacoes(Cidade cidade)
