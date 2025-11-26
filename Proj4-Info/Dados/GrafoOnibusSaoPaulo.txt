@@ -6,13 +6,17 @@ Assis;Ourinhos;70
 Assis;Presidente Prudente;126
 Barretos;Bebedouro;50
 Bauru;Botucatu;96
+Bauru;Jau;55
+Bauru;Lins;200
 Bebedouro;Barretos;50
 Bebedouro;Catanduva;60
 Botucatu;Bauru;96
+Botucatu;Jau;96
 Botucatu;Ourinhos;182
 Buri;Sorocaba;168
 Campinas;Americana;40
 Campinas;Itu;51
+Campinas;Jau;200
 Caraguatatuba;Ubatuba;50
 Catanduva;Araraquara;115
 Catanduva;Bebedouro;60
@@ -20,9 +24,13 @@ Cruzeiro;Pindamonhangaba;76
 Itirapina;Rio Claro;42
 Itu;Campinas;51
 Itu;Mairinque;50
+Jau;Bauru;55
+Jau;Botucatu;96
+Jau;Campinas;200
 Limeira;Americana;30
 Limeira;Rio Claro;40
 Lins;Aracatuba;50
+Lins;Bauru;200
 Mairinque;Itu;50
 Ourinhos;Assis;70
 Ourinhos;Botucatu;182

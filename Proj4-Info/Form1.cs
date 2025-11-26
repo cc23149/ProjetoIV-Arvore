@@ -18,23 +18,23 @@ namespace Proj4
     {
         Arvore<Cidade> arvore = new Arvore<Cidade>();
 
-        // estado para inserção via mapa
+        // estado para insercao via mapa
         private bool aguardandoCliqueNoMapa = false;
         private Cidade cidadePendente = null;
 
-        // seleção / rota
+        // selecao / rota
         private string cidadeSelecionada = null;
         private ListaSimples<Ligacao> rotaEncontrada = null;
 
-        // configuração visual
-        private const int RAIO_PONTO = 6; // pixel
-        private const int HIT_DIST = 8;   // tolerance in pixels for selecting a city
+        // configuracao visual
+        private const int RAIO_PONTO = 3; // pixel
+        private const int HIT_DIST = 6;   // tolerancia em pixels para selecionar cidade
 
         public Form1()
         {
             InitializeComponent();
 
-            // garante que eventos do picturebox estejam ligados (se não estiverem no designer)
+            // garante que eventos do picturebox estejam ligados (se nao estiverem no designer)
             this.pbMapa.Paint += PbMapa_Paint;
             this.pbMapa.MouseClick += PbMapa_MouseClick;
         }
@@ -53,7 +53,7 @@ namespace Proj4
         {
             try
             {
-                // ===== Localização dos arquivos ============
+                // ===== Localizacao dos arquivos ============
                 string pastaBase = Application.StartupPath;
                 DirectoryInfo dir = new DirectoryInfo(pastaBase);
                 string pastaProjeto = dir.Parent.Parent.FullName; // sobe duas pastas
@@ -70,7 +70,7 @@ namespace Proj4
                 }
                 else
                 {
-                    MessageBox.Show("Arquivo de cidades não encontrado!", "Aviso");
+                    MessageBox.Show("Arquivo de cidades nao encontrado!", "Aviso");
                 }
 
                 // ====== Leitura dos caminhos  ====================
@@ -85,11 +85,11 @@ namespace Proj4
                             if (partes.Length < 3)
                                 continue;
 
-                            // normaliza nomes lidos do arquivo (mantendo sem acentos)
+                            // normaliza nomes lidos do arquivo (matching sem acento / TitleCase)
                             string nomeOrigem = NormalizarEntrada(partes[0]);
                             string nomeDestino = NormalizarEntrada(partes[1]);
 
-                            // ignora auto-ligações
+                            // ignora auto-ligacoes
                             if (string.Equals(nomeOrigem, nomeDestino, StringComparison.OrdinalIgnoreCase))
                                 continue;
 
@@ -99,7 +99,7 @@ namespace Proj4
                             Cidade procuraOrigem = new Cidade(nomeOrigem);
                             Cidade procuraDestino = new Cidade(nomeDestino);
 
-                            // só adiciona se as cidades existirem (preserva integridade com cidades.dat)
+                            // so adiciona se as cidades existirem (preserva integridade com cidades.dat)
                             if (arvore.Existe(procuraOrigem) && arvore.Existe(procuraDestino))
                             {
                                 arvore.Existe(procuraOrigem);
@@ -108,7 +108,7 @@ namespace Proj4
                                 arvore.Existe(procuraDestino);
                                 Cidade cidadeDestino = arvore.Atual.Info;
 
-                                // garantimos que as ligações guardem nomes normalizados
+                                // garantimos que as ligacoes guardem nomes normalizados
                                 Ligacao ida = new Ligacao(cidadeOrigem.Nome.Trim(), cidadeDestino.Nome.Trim(), distancia);
                                 Ligacao volta = new Ligacao(cidadeDestino.Nome.Trim(), cidadeOrigem.Nome.Trim(), distancia);
 
@@ -125,7 +125,7 @@ namespace Proj4
                 }
                 else
                 {
-                    MessageBox.Show("Arquivo de caminhos não encontrado!", "Aviso");
+                    MessageBox.Show("Arquivo de caminhos nao encontrado!", "Aviso");
                 }
 
                 // ======== Atualiza interface ===========
@@ -151,14 +151,14 @@ namespace Proj4
             try
             {
                 arvore.GravarArquivoDeRegistros(arqCidades);
-                MessageBox.Show("Alterações salvas com sucesso!", "Gravação de Arquivo");
+                MessageBox.Show("Alteracoes salvas com sucesso!", "Gravacao de Arquivo");
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao salvar as cidades: " + ex.Message, "Erro");
             }
 
-            // ====== Grava as ligações ======
+            // ====== Grava as ligacoes ======
             string arqCaminhos = Path.Combine(pastaDados, "GrafoOnibusSaoPaulo.txt");
             using (StreamWriter gravador = new StreamWriter(arqCaminhos))
             {
@@ -190,15 +190,15 @@ namespace Proj4
                 cidadePendente.X = nx;
                 cidadePendente.Y = ny;
 
-                // tenta incluir respeitando a lógica da arvore
+                // tenta incluir respeitando a logica da arvore
                 bool inseriu = arvore.IncluirNovoDado(cidadePendente);
                 if (!inseriu)
                 {
-                    MessageBox.Show("Cidade já existente na árvore!", "Aviso");
+                    MessageBox.Show("Cidade ja existente na arvore!", "Aviso");
                 }
                 else
                 {
-                    // atualização visual / combos
+                    // atualizacao visual / combos
                     cbxCidadeDestino.Items.Clear();
                     PreencherComboCidades(arvore.Raiz);
                     pnlArvore.Refresh();
@@ -212,7 +212,7 @@ namespace Proj4
                 return;
             }
 
-            // caso contrário, trata clique de seleção de cidade
+            // caso contrario, trata clique de selecao de cidade
             Point clique = new Point(e.X, e.Y);
             string encontrada = EncontrarCidadePorClique(clique);
             if (encontrada != null)
@@ -233,7 +233,7 @@ namespace Proj4
 
         private void DrawMap(Graphics g)
         {
-            // desenha ligações em vermelho, rota em azul, pontos em preto/verde
+            // desenha ligacoes em vermelho, rota em azul, pontos em preto/verde
 
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
@@ -241,7 +241,7 @@ namespace Proj4
             List<Cidade> cidades = new List<Cidade>();
             ColetarCidades(arvore.Raiz, cidades);
 
-            // primeiro desenha ligações (vermelho)
+            // primeiro desenha ligacoes (vermelho)
             Pen penLig = new Pen(Color.Red, 1); // mais fino conforme pedido
             foreach (Cidade c in cidades)
             {
@@ -317,7 +317,7 @@ namespace Proj4
         {
             if (string.IsNullOrEmpty(nome))
                 return null;
-            // buscamos pelo nome normalizado (remoção de acentos / titlecase)
+            // buscamos pelo nome normalizado (remocao de acentos / titlecase)
             string n = NormalizarEntrada(nome);
             Cidade tmp = new Cidade(n);
             if (arvore.Existe(tmp))
@@ -344,8 +344,8 @@ namespace Proj4
         }
 
         /// <summary>
-        /// Normaliza uma entrada do usuário: remove acentos, trim, e Title Case (primeira letra de cada palavra maiúscula).
-        /// Aplicamos essa normalização sempre que o usuário digita nomes e clica nos botões (B).
+        /// Normaliza uma entrada do usuario: remove acentos, trim, e Title Case por palavra.
+        /// Aplicamos essa normalizacao sempre que o usuario digita nomes e clica nos botoes.
         /// </summary>
         private string NormalizarEntrada(string texto)
         {
@@ -365,7 +365,7 @@ namespace Proj4
             }
             string semAcento = sb.ToString().Normalize(NormalizationForm.FormC);
 
-            // coloca em minúsculas e Title Case por palavra (preserva espaços simples)
+            // coloca em minusculas e Title Case por palavra (preserva espacos simples)
             semAcento = semAcento.ToLowerInvariant();
             string[] partes = semAcento.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < partes.Length; i++)
@@ -377,7 +377,7 @@ namespace Proj4
             return string.Join(" ", partes);
         }
 
-        // ----------------- Botões e operações já existentes (mantidos) -----------------
+        // ----------------- BOTOES E OPERACOES JA EXISTENTES (MANTIDOS) -----------------
 
         private void btnIncluirCidade_Click(object sender, EventArgs e)
         {
@@ -390,7 +390,7 @@ namespace Proj4
                     return;
                 }
 
-                // normaliza só no uso (B)
+                // normaliza somente no uso (NAO alteramos dados armazenados automaticamente)
                 nome = NormalizarEntrada(nome);
 
                 // coloca em modo aguardando clique no mapa
@@ -416,7 +416,7 @@ namespace Proj4
                     return;
                 }
 
-                nome = NormalizarEntrada(nome); // normaliza só no uso (B)
+                nome = NormalizarEntrada(nome); // normaliza so no uso
                 Cidade procurada = new Cidade(nome);
 
                 if (arvore.Existe(procurada))
@@ -425,7 +425,7 @@ namespace Proj4
                     udX.Value = (decimal)procurada.X;
                     udY.Value = (decimal)procurada.Y;
 
-                    // Atualiza a grade de ligações visuais
+                    // Atualiza a grade de ligacoes visuais
                     AtualizarGridLigacoes(procurada);
 
                     // seleciona no mapa
@@ -436,8 +436,8 @@ namespace Proj4
                 }
                 else
                 {
-                    MessageBox.Show("Cidade não encontrada!", "Aviso");
-                    dgvLigacoes.Rows.Clear(); // limpa a tabela caso não ache
+                    MessageBox.Show("Cidade nao encontrada!", "Aviso");
+                    dgvLigacoes.Rows.Clear(); // limpa a tabela caso nao ache
                     cidadeSelecionada = null;
                     pbMapa.Invalidate();
                 }
@@ -459,7 +459,7 @@ namespace Proj4
                     return;
                 }
 
-                nome = NormalizarEntrada(nome); // normaliza só no uso (B)
+                nome = NormalizarEntrada(nome); // normaliza so no uso
                 Cidade procurada = new Cidade(nome);
 
                 if (arvore.Existe(procurada))
@@ -468,12 +468,12 @@ namespace Proj4
                     procurada.X = (double)udX.Value;
                     procurada.Y = (double)udY.Value;
 
-                    MessageBox.Show("Dados alterados com sucesso!", "Alteração");
+                    MessageBox.Show("Dados alterados com sucesso!", "Alteracao");
                     pnlArvore.Refresh();
                     pbMapa.Invalidate();
                 }
                 else
-                    MessageBox.Show("Cidade não encontrada!", "Aviso");
+                    MessageBox.Show("Cidade nao encontrada!", "Aviso");
             }
             catch (Exception erro)
             {
@@ -492,7 +492,7 @@ namespace Proj4
                     return;
                 }
 
-                nome = NormalizarEntrada(nome); // normaliza só no uso (B)
+                nome = NormalizarEntrada(nome); // normaliza so no uso
                 Cidade aExcluir = new Cidade(nome);
 
                 if (arvore.Existe(aExcluir))
@@ -502,7 +502,7 @@ namespace Proj4
                     if (aExcluir.Ligacoes.EstaVazia)
                     {
                         arvore.Excluir(aExcluir);
-                        MessageBox.Show("Cidade excluída com sucesso!", "Exclusão");
+                        MessageBox.Show("Cidade excluida com sucesso!", "Exclusao");
                         pnlArvore.Refresh();
 
                         // Atualiza o ComboBox
@@ -515,13 +515,13 @@ namespace Proj4
                     else
                     {
                         DialogResult dr = MessageBox.Show(
-                            "A cidade possui ligações. Deseja remover todas as ligações e excluir a cidade?",
-                            "Confirmar exclusão",
+                            "A cidade possui ligacoes. Deseja remover todas as ligacoes e excluir a cidade?",
+                            "Confirmar exclusao",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                         if (dr == DialogResult.Yes)
                         {
-                            // remove ligações ida e volta
+                            // remove ligacoes ida e volta
                             NoLista<Ligacao> atual = aExcluir.Ligacoes.Primeiro;
                             while (atual != null)
                             {
@@ -538,7 +538,7 @@ namespace Proj4
                                 atual = atual.Prox;
                             }
 
-                            // limpa ligações removendo cada uma individualmente
+                            // limpa ligacoes removendo cada uma individualmente
                             while (!aExcluir.Ligacoes.EstaVazia)
                             {
                                 NoLista<Ligacao> lig = aExcluir.Ligacoes.Primeiro;
@@ -557,7 +557,7 @@ namespace Proj4
                             }
                             arvore.Excluir(aExcluir);
 
-                            MessageBox.Show("Cidade e suas ligações removidas.", "Exclusão");
+                            MessageBox.Show("Cidade e suas ligacoes removidas.", "Exclusao");
                             pnlArvore.Refresh();
                             cbxCidadeDestino.Items.Clear();
                             PreencherComboCidades(arvore.Raiz);
@@ -567,7 +567,7 @@ namespace Proj4
                     }
                 }
                 else
-                    MessageBox.Show("Cidade não encontrada!", "Aviso");
+                    MessageBox.Show("Cidade nao encontrada!", "Aviso");
             }
             catch (Exception erro)
             {
@@ -576,8 +576,8 @@ namespace Proj4
         }
 
         /// <summary>
-        /// Busca o caminho mais curto (menor soma de distâncias) entre origem e destino usando Dijkstra.
-        /// Aplica normalização (B) nos nomes que vêm da UI.
+        /// Busca o caminho de menor distancia entre origem e destino usando Dijkstra.
+        /// Retorna apenas a rota valida (nao marca rotas auxiliares).
         /// </summary>
         private void btnBuscarCaminho_Click(object sender, EventArgs e)
         {
@@ -592,7 +592,7 @@ namespace Proj4
                     return;
                 }
 
-                nomeOrigem = NormalizarEntrada(nomeOrigem); // normaliza só no uso (B)
+                nomeOrigem = NormalizarEntrada(nomeOrigem); // normaliza so no uso
                 nomeDestino = NormalizarEntrada(nomeDestino);
 
                 Cidade origem = new Cidade(nomeOrigem);
@@ -600,7 +600,7 @@ namespace Proj4
 
                 if (!arvore.Existe(origem) || !arvore.Existe(destino))
                 {
-                    MessageBox.Show("Uma das cidades não foi encontrada!", "Aviso");
+                    MessageBox.Show("Uma das cidades nao foi encontrada!", "Aviso");
                     return;
                 }
 
@@ -613,7 +613,7 @@ namespace Proj4
                 List<Cidade> todas = new List<Cidade>();
                 ColetarCidades(arvore.Raiz, todas);
 
-                // inicializa distâncias e anteriores (Dijkstra)
+                // inicializa distancias e anteriores (Dijkstra)
                 Dictionary<Cidade, double> dist = new Dictionary<Cidade, double>();
                 Dictionary<Cidade, Cidade> anterior = new Dictionary<Cidade, Cidade>();
                 List<Cidade> naoVisitados = new List<Cidade>();
@@ -629,7 +629,7 @@ namespace Proj4
 
                 while (naoVisitados.Count > 0)
                 {
-                    // seleciona o não visitado com menor distância (simples, sem heap)
+                    // seleciona o nao visitado com menor distancia (simples, sem heap)
                     Cidade u = null;
                     double best = double.PositiveInfinity;
                     foreach (var n in naoVisitados)
@@ -642,9 +642,9 @@ namespace Proj4
                     }
 
                     if (u == null)
-                        break; // nós inacessíveis restantes
+                        break; // nos inacessiveis restantes
 
-                    // se chegamos ao destino, paramos (ótimo)
+                    // se chegamos ao destino, paramos (otimo)
                     if (u == destino)
                         break;
 
@@ -654,7 +654,7 @@ namespace Proj4
                     NoLista<Ligacao> lig = u.Ligacoes.Primeiro;
                     while (lig != null)
                     {
-                        // busca o objeto Cidade correspondente ao destino da ligação
+                        // busca o objeto Cidade correspondente ao destino da ligacao
                         string nomeViz = NormalizarEntrada(lig.Info.Destino);
                         Cidade v = FindCidadeByName(nomeViz);
 
@@ -672,11 +672,11 @@ namespace Proj4
                     }
                 }
 
-                // verifica se destino alcançado
+                // verifica se destino alcancado
                 if (double.IsPositiveInfinity(dist[destino]))
                 {
-                    MessageBox.Show("Não há caminho entre essas cidades!", "Busca");
-                    lbDistanciaTotal.Text = "Distância total: 0 km";
+                    MessageBox.Show("Nao ha caminho entre essas cidades!", "Busca");
+                    lbDistanciaTotal.Text = "Distancia total: 0 km";
                     rotaEncontrada = null;
                     dgvRotas.Rows.Clear();
                     pbMapa.Invalidate();
@@ -693,7 +693,7 @@ namespace Proj4
                 }
                 caminhoFinal.Reverse();
 
-                // converte a lista de cidades em lista de ligações (com distâncias corretas)
+                // converte a lista de cidades em lista de ligacoes (com distancias corretas)
                 dgvRotas.Rows.Clear();
                 rotaEncontrada = new ListaSimples<Ligacao>();
                 int total = 0;
@@ -702,7 +702,7 @@ namespace Proj4
                     Cidade a = caminhoFinal[i];
                     Cidade b = caminhoFinal[i + 1];
 
-                    // procura a ligação a -> b
+                    // procura a ligacao a -> b
                     NoLista<Ligacao> aux = a.Ligacoes.Primeiro;
                     Ligacao encontrada = null;
                     while (aux != null)
@@ -723,7 +723,7 @@ namespace Proj4
                     }
                 }
 
-                lbDistanciaTotal.Text = $"Distância total: {total} km";
+                lbDistanciaTotal.Text = $"Distancia total: {total} km";
                 pbMapa.Invalidate();
             }
             catch (Exception erro)
@@ -746,7 +746,7 @@ namespace Proj4
                     return;
                 }
 
-                // normaliza só no uso (B)
+                // normaliza so no uso (B)
                 nomeOrigem = NormalizarEntrada(nomeOrigem);
                 nomeDestino = NormalizarEntrada(nomeDestino);
 
@@ -756,7 +756,7 @@ namespace Proj4
                     return;
                 }
 
-                // ===== GARANTE QUE AS CIDADES EXISTAM NA ÁRVORE =====
+                // ===== GARANTE QUE AS CIDADES EXISTAM NA ARVORE =====
                 Cidade origem = new Cidade(nomeOrigem);
                 if (!arvore.Existe(origem))
                 {
@@ -773,36 +773,14 @@ namespace Proj4
                 }
                 destino = arvore.Atual.Info;
 
-                // ===== EXPANDE LIGAÇÕES DA CIDADE DE DESTINO PARA A ORIGEM (opcional) =====
-                // (aqui mantive a ideia que você sugeriu: conectar origem às vizinhas de destino para "completar" grafo)
-                NoLista<Ligacao> ligDest = destino.Ligacoes.Primeiro;
-                while (ligDest != null)
-                {
-                    string nomeVizinha = NormalizarEntrada(ligDest.Info.Destino);
+                // ------------- IMPORTANTE -------------
+                // Removi a expansao automatica das vizinhas do destino para a origem.
+                // Isso evita criar caminhos "por tabela". Agora apenas sera criada
+                // a ligacao direta ida/volta entre origem e destino, sem adicionar
+                // novas ligacoes extras automaticamente.
+                // --------------------------------------
 
-                    // evita auto-ligação e evita ligar a própria cidade que já recebeu ligação
-                    if (!nomeVizinha.Equals(origem.Nome.Trim(), StringComparison.OrdinalIgnoreCase))
-                    {
-                        Cidade vizinha = new Cidade(nomeVizinha);
-
-                        if (arvore.Existe(vizinha))
-                        {
-                            vizinha = arvore.Atual.Info;
-
-                            // Se origem ainda não tem ligação com a vizinha, cria
-                            if (!origem.Ligacoes.ExisteDado(new Ligacao(origem.Nome.Trim(), vizinha.Nome.Trim(), ligDest.Info.Distancia)))
-                                origem.Ligacoes.InserirEmOrdem(new Ligacao(origem.Nome.Trim(), vizinha.Nome.Trim(), ligDest.Info.Distancia));
-
-                            // Se a vizinha não tem ligação com a origem, cria a volta
-                            if (!vizinha.Ligacoes.ExisteDado(new Ligacao(vizinha.Nome.Trim(), origem.Nome.Trim(), ligDest.Info.Distancia)))
-                                vizinha.Ligacoes.InserirEmOrdem(new Ligacao(vizinha.Nome.Trim(), origem.Nome.Trim(), ligDest.Info.Distancia));
-                        }
-                    }
-
-                    ligDest = ligDest.Prox;
-                }
-
-                // ===== CRIA LIGAÇÕES BIDIRECIONAIS =====
+                // ===== CRIA LIGACOES BIDIRECIONAIS =====
                 Ligacao ida = new Ligacao(origem.Nome.Trim(), destino.Nome.Trim(), distancia);
                 Ligacao volta = new Ligacao(destino.Nome.Trim(), origem.Nome.Trim(), distancia);
 
@@ -812,9 +790,9 @@ namespace Proj4
                 if (!destino.Ligacoes.ExisteDado(volta))
                     destino.Ligacoes.InserirEmOrdem(volta);
 
-                MessageBox.Show("Caminho incluído com sucesso!", "Inclusão");
+                MessageBox.Show("Caminho incluido com sucesso!", "Inclusao");
 
-                // Atualiza visualmente as ligações da cidade de origem
+                // Atualiza visualmente as ligacoes da cidade de origem
                 AtualizarGridLigacoes(origem);
                 pbMapa.Invalidate();
             }
@@ -837,7 +815,7 @@ namespace Proj4
                     return;
                 }
 
-                // normaliza só no uso (B)
+                // normaliza so no uso (B)
                 nomeOrigem = NormalizarEntrada(nomeOrigem);
                 nomeDestino = NormalizarEntrada(nomeDestino);
 
@@ -851,7 +829,7 @@ namespace Proj4
                 Cidade origem = new Cidade(nomeOrigem);
                 if (!arvore.Existe(origem))
                 {
-                    MessageBox.Show("Cidade de origem não encontrada!", "Aviso");
+                    MessageBox.Show("Cidade de origem nao encontrada!", "Aviso");
                     return;
                 }
                 origem = arvore.Atual.Info;
@@ -859,12 +837,12 @@ namespace Proj4
                 Cidade destino = new Cidade(nomeDestino);
                 if (!arvore.Existe(destino))
                 {
-                    MessageBox.Show("Cidade de destino não encontrada!", "Aviso");
+                    MessageBox.Show("Cidade de destino nao encontrada!", "Aviso");
                     return;
                 }
                 destino = arvore.Atual.Info;
 
-                // ===== VERIFICA SE EXISTE A LIGAÇÃO =====
+                // ===== VERIFICA SE EXISTE A LIGACAO =====
                 Ligacao ligacaoIda = new Ligacao(origem.Nome.Trim(), destino.Nome.Trim(), 0);
                 Ligacao ligacaoVolta = new Ligacao(destino.Nome.Trim(), origem.Nome.Trim(), 0);
 
@@ -873,13 +851,13 @@ namespace Proj4
 
                 if (removidaOrigem || removidaDestino)
                 {
-                    MessageBox.Show("Caminho excluído com sucesso!", "Exclusão");
+                    MessageBox.Show("Caminho excluido com sucesso!", "Exclusao");
                     AtualizarGridLigacoes(origem);
                     pbMapa.Invalidate();
                 }
                 else
                 {
-                    MessageBox.Show("Não existe caminho entre essas cidades!", "Aviso");
+                    MessageBox.Show("Nao existe caminho entre essas cidades!", "Aviso");
                 }
             }
             catch (Exception erro)
@@ -895,7 +873,7 @@ namespace Proj4
 
             GravarLigacoes(no.Esq, gravador);
 
-            // grava todas as ligações da cidade
+            // grava todas as ligacoes da cidade
             NoLista<Ligacao> atual = no.Info.Ligacoes.Primeiro;
             while (atual != null)
             {

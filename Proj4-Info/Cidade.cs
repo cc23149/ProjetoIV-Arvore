@@ -17,7 +17,9 @@ namespace Proj4
         public string Nome
         {
             get => nome;
-            set => nome = value.PadRight(tamanhoNome, ' ').Substring(0, tamanhoNome);
+            set => nome = NormalizarParaPadrao(value)
+                            .PadRight(tamanhoNome, ' ')
+                            .Substring(0, tamanhoNome);
         }
 
         public Cidade(string nome, double x, double y)
@@ -69,6 +71,39 @@ namespace Proj4
             arquivo.Write(Nome.ToCharArray());
             arquivo.Write(x);
             arquivo.Write(y);
+        }
+
+        public static string NormalizarParaPadrao(string nome)
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+                return "";
+
+            nome = RemoverAcentos(nome.Trim());
+
+            string[] partes = nome.ToLower().Split(' ');
+            for (int i = 0; i < partes.Length; i++)
+            {
+                if (partes[i].Length > 0)
+                    partes[i] = char.ToUpper(partes[i][0]) + partes[i].Substring(1);
+            }
+
+            return string.Join(" ", partes);
+        }
+
+        public static string RemoverAcentos(string texto)
+        {
+            string withFormD = texto.Normalize(System.Text.NormalizationForm.FormD);
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            for (int i = 0; i < withFormD.Length; i++)
+            {
+                System.Globalization.UnicodeCategory uc =
+                    System.Globalization.CharUnicodeInfo.GetUnicodeCategory(withFormD[i]);
+                if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sb.Append(withFormD[i]);
+            }
+
+            return sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
         }
 
 
