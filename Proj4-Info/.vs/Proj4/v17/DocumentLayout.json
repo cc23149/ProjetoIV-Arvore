@@ -3,7 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|c:\\users\\u23149\\documents\\github\\projetoiv-arvore\\proj4-info\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|c:\\users\\u23149\\documents\\github\\projetoiv-arvore\\proj4-info\\cidade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|solutionrelative:cidade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -31,10 +35,6 @@
       "RelativeMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\cidade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|solutionrelative:cidade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\iregistro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6740BFC1-3F71-402F-87E5-DFF5FD2CEB47}|Proj4.csproj|solutionrelative:iregistro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -58,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 25,
+          "SelectedChildIndex": 27,
           "Children": [
             {
               "$type": "Bookmark",
@@ -135,6 +135,18 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Form1.cs",
+              "RelativeToolTip": "Form1.cs",
+              "ViewState": "AQIAADcCAAAAAAAAAAAkwIsCAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T00:45:02.878Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Arvore.cs",
               "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Arvore.cs",
               "RelativeDocumentMoniker": "Arvore.cs",
@@ -142,12 +154,11 @@
               "RelativeToolTip": "Arvore.cs",
               "ViewState": "AgIAAKoAAAAAAAAAAAAiwLcAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T15:02:06.49Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-10T15:02:06.49Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "IQueue.cs",
               "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\IQueue.cs",
               "RelativeDocumentMoniker": "IQueue.cs",
@@ -159,7 +170,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "NoLista.cs",
               "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\NoLista.cs",
               "RelativeDocumentMoniker": "NoLista.cs",
@@ -171,7 +182,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "NoArvore.cs",
               "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\NoArvore.cs",
               "RelativeDocumentMoniker": "NoArvore.cs",
@@ -183,7 +194,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "Form1.Designer.cs",
@@ -191,8 +202,7 @@
               "RelativeToolTip": "Form1.Designer.cs",
               "ViewState": "AgIAAJoBAAAAAAAAAAAAANsBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T01:55:57.82Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-09T01:55:57.82Z"
             },
             {
               "$type": "Document",
@@ -219,19 +229,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Form1.cs",
-              "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Form1.cs",
-              "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAywD8AAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T00:45:02.878Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 10,
               "Title": "Ligacao.cs",
               "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Ligacao.cs",
@@ -244,19 +241,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "Cidade.cs",
               "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Cidade.cs",
               "RelativeDocumentMoniker": "Cidade.cs",
               "ToolTip": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Cidade.cs",
               "RelativeToolTip": "Cidade.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAADwvykAAAAIAAAAAAAAAA==",
+              "ViewState": "AQIAADUAAAAAAAAAAAAcwEIAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T00:44:52.186Z"
+              "WhenOpened": "2025-11-09T00:44:52.186Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",

@@ -70,6 +70,44 @@ namespace Proj4
             arquivo.Write(x);
             arquivo.Write(y);
         }
+
+
+
+
+        public static string NormalizarNome(string nome)
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+                return "";
+
+            nome = nome.Trim();
+
+            // Remove acentos
+            string form = nome.Normalize(System.Text.NormalizationForm.FormD);
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            foreach (char ch in form)
+            {
+                var cat = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(ch);
+                if (cat != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sb.Append(ch);
+            }
+
+            nome = sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
+
+            // Tudo minúsculo
+            nome = nome.ToLowerInvariant();
+
+            // Title Case (primeira letra maiúscula)
+            string[] partes = nome.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < partes.Length; i++)
+            {
+                if (partes[i].Length > 0)
+                    partes[i] = char.ToUpper(partes[i][0]) + partes[i].Substring(1);
+            }
+
+            return string.Join(" ", partes);
+        }
+
     }
 
 }
