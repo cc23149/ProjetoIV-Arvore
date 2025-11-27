@@ -1,44 +1,112 @@
 Americana;Campinas;40
 Americana;Limeira;30
 Aracatuba;Lins;50
+Aracatuba;Tupa;131
 Araraquara;Catanduva;115
+Araraquara;Ribeirao Preto;95
+Araraquara;Sao Carlos;97
 Assis;Ourinhos;70
 Assis;Presidente Prudente;126
 Barretos;Bebedouro;50
+Barretos;Colombia;50
 Bauru;Botucatu;96
 Bauru;Jau;55
 Bauru;Lins;200
+Bauru;Marilia;107
 Bebedouro;Barretos;50
 Bebedouro;Catanduva;60
+Bebedouro;Ribeirao Preto;95
 Botucatu;Bauru;96
 Botucatu;Jau;96
 Botucatu;Ourinhos;182
 Buri;Sorocaba;168
+Cajati;Juquia;98
 Campinas;Americana;40
 Campinas;Itu;51
 Campinas;Jau;200
+Campinas;Jundiai;46
+Caraguatatuba;Sao Sebastiao;67
 Caraguatatuba;Ubatuba;50
 Catanduva;Araraquara;115
 Catanduva;Bebedouro;60
+Catanduva;Lins;120
+Catanduva;Sao Jose Do Rio Preto;46
+Colombia;Barretos;50
 Cruzeiro;Pindamonhangaba;76
+Cruzeiro;Taubate;150
+Ipero;Mairinque;53
+Ipero;Sorocaba;24
+Itanhaem;Juquia;98
+Itanhaem;Santos;109
 Itirapina;Rio Claro;42
+Itirapina;Sao Carlos;78
 Itu;Campinas;51
 Itu;Mairinque;50
 Jau;Bauru;55
 Jau;Botucatu;96
 Jau;Campinas;200
+Jundiai;Campinas;46
+Jundiai;Sao Jose Dos Campos;140
+Juquia;Cajati;98
+Juquia;Itanhaem;98
 Limeira;Americana;30
 Limeira;Rio Claro;40
 Lins;Aracatuba;50
 Lins;Bauru;200
+Lins;Catanduva;120
+Mairinque;Ipero;53
 Mairinque;Itu;50
+Mairinque;Sao Paulo;46
+Marilia;Bauru;107
+Marilia;Ourinhos;112
+Marilia;Tupa;98
+Mogi Guacu;Pocos De Caldas;140
+Mogi Guacu;Rio Claro;78
 Ourinhos;Assis;70
 Ourinhos;Botucatu;182
+Ourinhos;Marilia;112
+Panorama;Presidente Epitacio;74
 Pindamonhangaba;Cruzeiro;76
+Pindamonhangaba;Pocos De Caldas;300
+Pindamonhangaba;Taubate;60
+Pocos De Caldas;Mogi Guacu;140
+Pocos De Caldas;Pindamonhangaba;300
+Presidente Epitacio;Panorama;74
+Presidente Epitacio;Presidente Prudente;117
 Presidente Prudente;Assis;126
+Presidente Prudente;Presidente Epitacio;117
+Presidente Prudente;Tupa;74
+Ribeirao Preto;Araraquara;95
+Ribeirao Preto;Bebedouro;95
 Rio Claro;Itirapina;42
 Rio Claro;Limeira;40
+Rio Claro;Mogi Guacu;78
+Rubineia;Votuporanga;180
+Santos;Itanhaem;109
 Santos;Suzano;90
+Sao Carlos;Araraquara;97
+Sao Carlos;Itirapina;78
+Sao Jose Do Rio Preto;Catanduva;46
+Sao Jose Do Rio Preto;Votuporanga;80
+Sao Jose Dos Campos;Jundiai;140
+Sao Jose Dos Campos;Ubatuba;120
+Sao Paulo;Mairinque;46
+Sao Paulo;Suzano;30
+Sao Sebastiao;Caraguatatuba;67
+Sao Sebastiao;Suzano;126
 Sorocaba;Buri;168
+Sorocaba;Ipero;24
 Suzano;Santos;90
+Suzano;Sao Paulo;30
+Suzano;Sao Sebastiao;126
+Taubate;Cruzeiro;150
+Taubate;Pindamonhangaba;60
+Taubate;Ubatuba;60
+Tupa;Aracatuba;131
+Tupa;Marilia;98
+Tupa;Presidente Prudente;74
 Ubatuba;Caraguatatuba;50
+Ubatuba;Sao Jose Dos Campos;120
+Ubatuba;Taubate;60
+Votuporanga;Rubineia;180
+Votuporanga;Sao Jose Do Rio Preto;80

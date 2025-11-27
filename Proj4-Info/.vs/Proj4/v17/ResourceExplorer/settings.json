@@ -1,16 +1,1 @@
-{
-  "ShowEmptyProjects": false,
-  "SelectedGroups": [],
-  "ExpandedProjects": [],
-  "EnableSpellChecker": true,
-  "ColumnOrder": [
-    "name",
-    "type",
-    "neutral-value",
-    "neutral-comment"
-  ],
-  "VisibleColumnKeys": [
-    "name",
-    "neutral-value"
-  ]
-}
+{"ShowEmptyProjects":false,"CustomColumnOrderings":{"name":0,"file-path":1,"file-name":2,"neutral-value":3,"neutral-comment":4,"type":5},"ShowValidationErrors":true,"SelectedResourceGroupsByProject":{"C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Proj4.csproj":["C:\\Users\\u23149\\Documents\\GitHub\\ProjetoIV-Arvore\\Proj4-Info\\Form1.resx"]},"VisibleColumnKeys":["name","neutral-value","neutral-comment"]}
